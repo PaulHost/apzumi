@@ -1,4 +1,4 @@
-package com.apzumi.chellange
+package com.apzumi.challenge
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle

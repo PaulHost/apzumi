@@ -1,4 +1,4 @@
-package com.apzumi.chellange
+package com.apzumi.challenge
 
 import org.junit.Test
 

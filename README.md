@@ -12,7 +12,9 @@ Using Kotlin, create an application that meets these criteria:
 
        b. GitHub: https://api.github.com/repositories
 
-    ● List element consists of: repository name, user’s name and user’s avatar. ● Details screen consists of: repository name, repository details, user’s name and user’s avatar.
+    ● List element consists of: repository name, user’s name and user’s avatar.
+
+    ● Details screen consists of: repository name, repository details, user’s name and user’s avatar.
 
     ● Elements downloaded from the Bitbucket API should be visually distinguishable from Github ones (in any way).
 
