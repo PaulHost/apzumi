@@ -12,31 +12,25 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 val apiModule = module {
-    single { provideClient() }
-    single { provideBitbucket(get()) }
-    single { provideGitHub(get()) }
-    single { createBitbucketApiInstance<BitbucketRepository>(get()) }
-    single { createGitHubApiInstance<GitHubRepository>(get()) }
+    single {
+        OkHttpClient.Builder().apply {
+            if (BuildConfig.DEBUG) {
+                addInterceptor(
+                    HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) }
+                )
+            }
+            connectTimeout(120, TimeUnit.SECONDS)
+            readTimeout(120, TimeUnit.SECONDS)
+            writeTimeout(120, TimeUnit.SECONDS)
+        }.build()
+    }
+    factory { provideRetrofit(get(), Bitbucket_URL).create(BitbucketRepository::class.java) }
+    factory { provideRetrofit(get(), GitHub_URL).create(GitHubRepository::class.java) }
 }
-
-private typealias GitHub = Retrofit
-
-private typealias Bitbucket = Retrofit
 
 private const val Bitbucket_URL = "https://api.bitbucket.org/"
 
 private const val GitHub_URL = "https://api.github.com/"
-
-private fun provideClient() = OkHttpClient.Builder().apply {
-    if (BuildConfig.DEBUG) {
-        addInterceptor(
-            HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) }
-        )
-    }
-    connectTimeout(120, TimeUnit.SECONDS)
-    readTimeout(120, TimeUnit.SECONDS)
-    writeTimeout(120, TimeUnit.SECONDS)
-}.build()
 
 private fun provideRetrofit(client: OkHttpClient, url: String) = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create())
@@ -44,11 +38,3 @@ private fun provideRetrofit(client: OkHttpClient, url: String) = Retrofit.Builde
     .baseUrl(url)
     .client(client)
     .build()
-
-private fun provideGitHub(client: OkHttpClient): GitHub = provideRetrofit(client, GitHub_URL)
-private fun provideBitbucket(client: OkHttpClient): Bitbucket = provideRetrofit(client, Bitbucket_URL)
-
-inline fun <reified T> createGitHubApiInstance(gitHub: GitHub): T = createApiInstance(gitHub)
-inline fun <reified T> createBitbucketApiInstance(bitbucket: Bitbucket): T = createApiInstance(bitbucket)
-
-inline fun <reified T> createApiInstance(retrofit: Retrofit): T = retrofit.create(T::class.java)

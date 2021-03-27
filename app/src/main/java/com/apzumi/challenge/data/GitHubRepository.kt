@@ -5,6 +5,6 @@ import io.reactivex.Flowable
 import retrofit2.http.GET
 
 interface GitHubRepository {
-        @GET("/repositories")
+        @GET("/repositories?since=25")
         fun getRepositories(): Flowable<GitHubResponse>
 }
