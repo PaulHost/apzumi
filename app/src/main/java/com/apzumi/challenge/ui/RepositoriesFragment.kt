@@ -9,11 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.apzumi.challenge.R
-import com.apzumi.challenge.common.applySchedulers
 import org.koin.android.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
-@SuppressLint("CheckResult")
 class RepositoriesFragment : Fragment() {
     private val repositoriesAdapter = RepositoriesAdapter()
     private val viewModel by viewModel<RepositoriesViewModel>()
@@ -34,8 +31,7 @@ class RepositoriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getRepositories()
-            .applySchedulers()
-            .subscribe(repositoriesAdapter::setList, Timber::e)
+        viewModel.repositoriesLiveData.observe(viewLifecycleOwner, repositoriesAdapter::setList)
     }
 
     companion object {

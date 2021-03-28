@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/title_margin"
+        android:adjustViewBounds="true"
         android:textAppearance="?attr/textAppearanceListItem"
         android:textSize="@dimen/title"
         app:layout_constraintEnd_toEndOf="parent"

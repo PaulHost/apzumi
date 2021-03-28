@@ -29,10 +29,12 @@ class RepositoriesAdapter(
 
     override fun getItemCount(): Int = values.size
 
-    fun setList(list: List<RepositoryModel>) {
-        values.clear()
-        values.addAll(list)
-        notifyDataSetChanged()
+    fun setList(list: List<RepositoryModel>?) {
+        if (list?.isNotEmpty() ?: false) {
+            values.clear()
+            values.addAll(list!!)
+            notifyDataSetChanged()
+        }
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
