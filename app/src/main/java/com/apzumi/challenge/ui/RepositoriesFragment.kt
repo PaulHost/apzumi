@@ -1,5 +1,6 @@
 package com.apzumi.challenge.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -9,8 +10,13 @@ import com.apzumi.challenge.R
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class RepositoriesFragment : Fragment() {
-    private val repositoriesAdapter = RepositoriesAdapter()
+    private lateinit var repositoriesAdapter: RepositoriesAdapter
     private val viewModel by viewModel<RepositoriesViewModel>()
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        repositoriesAdapter = RepositoriesAdapter(context as NavigationListener)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

@@ -1,6 +1,7 @@
 package com.apzumi.challenge
 
 import android.os.Bundle
+import com.apzumi.challenge.ui.InfoFragment
 import com.apzumi.challenge.ui.RepositoriesFragment
 import com.apzumi.challenge.ui.base.BaseActivity
 
@@ -14,5 +15,9 @@ class MainActivity : BaseActivity() {
         savedInstanceState ?: run {
             startFragment(RepositoriesFragment.newInstance())
         }
+    }
+
+    override fun goInfo(name: String) {
+        startFragment(InfoFragment.newInstance(name))
     }
 }

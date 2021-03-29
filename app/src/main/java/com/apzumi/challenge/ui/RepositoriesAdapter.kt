@@ -11,6 +11,7 @@ import com.apzumi.challenge.data.model.RepositoryModel
 import com.squareup.picasso.Picasso
 
 class RepositoriesAdapter(
+    private val navigationListener: NavigationListener,
     private val values: MutableList<RepositoryModel> = mutableListOf()
 ) : RecyclerView.Adapter<RepositoriesAdapter.ViewHolder>() {
 
@@ -52,6 +53,8 @@ class RepositoriesAdapter(
         val user: TextView = view.findViewById(R.id.tv_user)
         val avatar: AppCompatImageView = view.findViewById(R.id.iv_avatar)
         val icon: AppCompatImageView = view.findViewById(R.id.iv_repo)
+
+        init { view.setOnClickListener { navigationListener.goInfo(name.text.toString()) } }
 
         fun setAvatar(url: String) = Picasso.get()
             .load(url)
