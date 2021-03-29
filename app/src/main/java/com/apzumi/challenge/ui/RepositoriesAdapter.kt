@@ -14,6 +14,8 @@ class RepositoriesAdapter(
     private val values: MutableList<RepositoryModel> = mutableListOf()
 ) : RecyclerView.Adapter<RepositoriesAdapter.ViewHolder>() {
 
+    var isSorted: Boolean = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_repository, parent, false)
@@ -30,9 +32,11 @@ class RepositoriesAdapter(
 
     override fun getItemCount(): Int = values.size
 
-    fun sortByAlphabet(isByAlphabet: Boolean = true) {
-        if (isByAlphabet) values.sortBy { it.name }
+    fun sortByAlphabet() {
+        if (!isSorted) values.sortBy { it.name }
         else values.sortBy { it.user }
+        isSorted = !isSorted
+        notifyDataSetChanged()
     }
 
     fun setList(list: List<RepositoryModel>?) {
